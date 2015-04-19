@@ -205,25 +205,19 @@ hr {
 
 <h3>Load the data</h3>
 
-<ol>
-<li>Load relevant packages for the assignment:</li>
-</ol>
+<p>Load relevant packages for the assignment:</p>
 
 <pre><code class="r">library(lattice)
 </code></pre>
 
-<ol>
-<li>Define the url, the name of the zip file, and the name of the data file:</li>
-</ol>
+<p>Define the url, the name of the zip file, and the name of the data file:</p>
 
 <pre><code class="r">url &lt;- &quot;https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;
 zipFile &lt;- &quot;data.zip&quot;
 fileName &lt;- &quot;activity.csv&quot;
 </code></pre>
 
-<ol>
-<li>If the data source file activity.csv is not in the current directory, download and unzip the source file from the url:</li>
-</ol>
+<p>If the data source file activity.csv is not in the current directory, download and unzip the source file from the url:</p>
 
 <pre><code class="r">if (!file.exists(fileName))
 {
@@ -232,18 +226,14 @@ fileName &lt;- &quot;activity.csv&quot;
 }
 </code></pre>
 
-<ol>
-<li>Read (and format) the data from the data source file: </li>
-</ol>
+<p>Read (and format) the data from the data source file: </p>
 
 <pre><code class="r">data &lt;- read.csv(&quot;activity.csv&quot;
                  , colClasses = c(&quot;numeric&quot;, &quot;Date&quot;, &quot;numeric&quot;)
                  , na.strings = &quot;NA&quot;)
 </code></pre>
 
-<ol>
-<li>Check the contents of the data:</li>
-</ol>
+<p>Check the contents of the data:</p>
 
 <pre><code class="r">head(data)
 </code></pre>
@@ -305,18 +295,14 @@ The median for the total number of steps per day  is 10770.</p>
 
 <h3>Make a time series plot of the 5 minute interval and average number of steps taken across all days:</h3>
 
-<ol>
-<li>Create a new data frame that averages the number of steps by interval:</li>
-</ol>
+<p>Create a new data frame that averages the number of steps by interval:</p>
 
 <pre><code class="r">steps.interval &lt;- aggregate(data$steps ~ data$interval, FUN=mean, na.rm=TRUE)
 
 names(steps.interval) &lt;- c(&quot;interval&quot;, &quot;steps&quot;)
 </code></pre>
 
-<ol>
-<li>Plot the average number of steps by interval </li>
-</ol>
+<p>Plot the average number of steps by interval </p>
 
 <pre><code class="r">with( steps.interval
       , plot( interval
@@ -362,16 +348,12 @@ names(steps.interval) &lt;- c(&quot;interval&quot;, &quot;steps&quot;)
 
 <h3>Develop a strategy for imputing the data</h3>
 
-<ol>
-<li>Create a dataframe with only NA values:</li>
-</ol>
+<p>Create a dataframe with only NA values:</p>
 
 <pre><code class="r">nas &lt;- data[is.na(data$steps), ]
 </code></pre>
 
-<ol>
-<li>Impute the missing values by replacing NAs with the average number of steps for the interval: </li>
-</ol>
+<p>Impute the missing values by replacing NAs with the average number of steps for the interval: </p>
 
 <pre><code class="r">for ( i in 1:nrow(nas)) {
 
@@ -383,34 +365,26 @@ names(steps.interval) &lt;- c(&quot;interval&quot;, &quot;steps&quot;)
 
 <h3>Create a new dataset with missing values filled in</h3>
 
-<ol>
-<li>Create a dataframe from the original dataset with no NA values:</li>
-</ol>
+<p>Create a dataframe from the original dataset with no NA values:</p>
 
 <pre><code class="r">val &lt;- data[!is.na(data$steps), ]
 </code></pre>
 
-<ol>
-<li>Combine the dataframe with NA values imputed and the dataframe without NA values to create a newdataset with no NAs:</li>
-</ol>
+<p>Combine the dataframe with NA values imputed and the dataframe without NA values to create a newdataset with no NAs:</p>
 
 <pre><code class="r">newdata &lt;- rbind(val, nas)
 </code></pre>
 
 <h3>Plot a hisogram of total number of steps taken each day and fine the mean and median</h3>
 
-<ol>
-<li>Group the new dataset by day:</li>
-</ol>
+<p>Group the new dataset by day:</p>
 
 <pre><code class="r">newsteps.day &lt;- aggregate(newdata$steps ~ newdata$date, FUN=sum, na.rm=TRUE)
 
 names(newsteps.day) &lt;- c(&quot;date&quot;, &quot;steps&quot;)
 </code></pre>
 
-<ol>
-<li>Plot the data in a histogram:</li>
-</ol>
+<p>Plot the data in a histogram:</p>
 
 <pre><code class="r">with( newsteps.day, 
   hist(newsteps.day$steps
@@ -423,9 +397,7 @@ names(newsteps.day) &lt;- c(&quot;date&quot;, &quot;steps&quot;)
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-18"/> </p>
 
-<ol>
-<li>Get a summary of the new data set to obtain the mean and median:</li>
-</ol>
+<p>Get a summary of the new data set to obtain the mean and median:</p>
 
 <pre><code class="r">summary(newsteps.day)
 </code></pre>
@@ -469,9 +441,7 @@ total number of steps per day.</p>
 
 <h3>Make a panel plot of time series plots for the average number of steps per day grouped by weekday vs weekend</h3>
 
-<ol>
-<li>Create a dataframe to find average number of steps by weekend and interval:</li>
-</ol>
+<p>Create a dataframe to find average number of steps by weekend and interval:</p>
 
 <pre><code class="r">wk.interval &lt;- aggregate(newdata$steps
                          , by=list(newdata$weekdays, newdata$interval)
@@ -481,9 +451,7 @@ total number of steps per day.</p>
 names(wk.interval) &lt;- c(&quot;weekdays&quot;, &quot;interval&quot;, &quot;steps&quot;)
 </code></pre>
 
-<ol>
-<li>Create a panel plot using the lattice plotting system:</li>
-</ol>
+<p>Create a panel plot using the lattice plotting system:</p>
 
 <pre><code class="r">xyplot( steps ~ interval | weekdays
         , data = wk.interval

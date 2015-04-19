@@ -9,14 +9,14 @@ output:
   
 ### Load the data
 
-1. Load relevant packages for the assignment:
+Load relevant packages for the assignment:
 
 ```r
 library(lattice)
 ```
 
 
-2. Define the url, the name of the zip file, and the name of the data file:
+Define the url, the name of the zip file, and the name of the data file:
 
 ```r
 url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -25,7 +25,7 @@ fileName <- "activity.csv"
 ```
 
 
-3. If the data source file activity.csv is not in the current directory, download and unzip the source file from the url:
+If the data source file activity.csv is not in the current directory, download and unzip the source file from the url:
 
 ```r
 if (!file.exists(fileName))
@@ -36,7 +36,7 @@ if (!file.exists(fileName))
 ```
 
 
-4. Read (and format) the data from the data source file: 
+Read (and format) the data from the data source file: 
 
 ```r
 data <- read.csv("activity.csv"
@@ -45,7 +45,7 @@ data <- read.csv("activity.csv"
 ```
 
 
-5. Check the contents of the data:
+Check the contents of the data:
 
 ```r
 head(data)
@@ -115,7 +115,7 @@ The median for the total number of steps per day  is 10770.
 
 ### Make a time series plot of the 5 minute interval and average number of steps taken across all days:
 
-1. Create a new data frame that averages the number of steps by interval:
+Create a new data frame that averages the number of steps by interval:
 
 ```r
 steps.interval <- aggregate(data$steps ~ data$interval, FUN=mean, na.rm=TRUE)
@@ -124,7 +124,7 @@ names(steps.interval) <- c("interval", "steps")
 ```
 
 
-2. Plot the average number of steps by interval 
+Plot the average number of steps by interval 
 
 ```r
 with( steps.interval
@@ -181,14 +181,14 @@ There are 2304 data points with NA values.
 ### Develop a strategy for imputing the data 
 
 
-1. Create a dataframe with only NA values:
+Create a dataframe with only NA values:
 
 ```r
 nas <- data[is.na(data$steps), ]
 ```
 
 
-2. Impute the missing values by replacing NAs with the average number of steps for the interval: 
+Impute the missing values by replacing NAs with the average number of steps for the interval: 
 
 ```r
 for ( i in 1:nrow(nas)) {
@@ -202,13 +202,13 @@ for ( i in 1:nrow(nas)) {
 
 ### Create a new dataset with missing values filled in
 
-1. Create a dataframe from the original dataset with no NA values:
+Create a dataframe from the original dataset with no NA values:
 
 ```r
 val <- data[!is.na(data$steps), ]
 ```
 
-2. Combine the dataframe with NA values imputed and the dataframe without NA values to create a newdataset with no NAs:
+Combine the dataframe with NA values imputed and the dataframe without NA values to create a newdataset with no NAs:
 
 ```r
 newdata <- rbind(val, nas)
@@ -217,7 +217,7 @@ newdata <- rbind(val, nas)
 
 ### Plot a hisogram of total number of steps taken each day and fine the mean and median
 
-1. Group the new dataset by day:
+Group the new dataset by day:
 
 ```r
 newsteps.day <- aggregate(newdata$steps ~ newdata$date, FUN=sum, na.rm=TRUE)
@@ -226,7 +226,7 @@ names(newsteps.day) <- c("date", "steps")
 ```
 
 
-2. Plot the data in a histogram:
+Plot the data in a histogram:
 
 ```r
 with( newsteps.day, 
@@ -241,7 +241,7 @@ with( newsteps.day,
 ![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18-1.png) 
 
 
-3. Get a summary of the new data set to obtain the mean and median:
+Get a summary of the new data set to obtain the mean and median:
 
 ```r
 summary(newsteps.day)
@@ -291,7 +291,7 @@ newdata <- transform(newdata
   
 ### Make a panel plot of time series plots for the average number of steps per day grouped by weekday vs weekend
   
-1. Create a dataframe to find average number of steps by weekend and interval:
+Create a dataframe to find average number of steps by weekend and interval:
 
 ```r
 wk.interval <- aggregate(newdata$steps
@@ -303,7 +303,7 @@ names(wk.interval) <- c("weekdays", "interval", "steps")
 ```
   
   
-2. Create a panel plot using the lattice plotting system:
+Create a panel plot using the lattice plotting system:
 
 ```r
 xyplot( steps ~ interval | weekdays
